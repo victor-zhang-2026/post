@@ -3,7 +3,7 @@ obj.__index = obj
 
 obj.name = "Post"
 obj.version = "1.0.0"
-obj.author = "Victor"
+obj.author = "Victor Zhang × Hammerspoon"
 obj.license = "MIT"
 
 local STORAGE_KEY = "Post.storagePath"
