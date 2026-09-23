@@ -4,7 +4,7 @@
 
 **A fast, local-first Markdown daily note tool for macOS.**
 
-[Victor Zhang](https://github.com/victor-zhang-2026) × [Hammerspoon](https://www.hammerspoon.org/) · v1.0.0
+[Victor Zhang](https://github.com/victor-zhang-2026) × [Hammerspoon](https://www.hammerspoon.org/) · v1.0.1
 
 ---
 
@@ -17,7 +17,7 @@ Post 让你随时唤起一个轻量输入窗口，把当天的想法快速保存
 ### 安装
 
 1. 安装 [Hammerspoon](https://github.com/Hammerspoon/hammerspoon/releases)。
-2. 下载并解压 `Post-v1.0.0.zip`。
+2. 下载并解压 `Post-v1.0.1.zip`。
 3. 双击 `Install Post.command`。
 4. 按 `⌥D`，首次打开时选择 Markdown 存储目录。
 
@@ -36,7 +36,7 @@ You can later use any Agent tool to analyze, summarize, and uncover insights fro
 ### Install
 
 1. Install [Hammerspoon](https://github.com/Hammerspoon/hammerspoon/releases).
-2. Download and unzip `Post-v1.0.0.zip`.
+2. Download and unzip `Post-v1.0.1.zip`.
 3. Double-click `Install Post.command`.
 4. Press `⌥D` and choose your Markdown storage folder on first launch.
 

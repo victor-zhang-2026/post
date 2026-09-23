@@ -2,7 +2,7 @@ local obj = {}
 obj.__index = obj
 
 obj.name = "Post"
-obj.version = "1.0.0"
+obj.version = "1.0.1"
 obj.author = "Victor Zhang × Hammerspoon"
 obj.license = "MIT"
 
@@ -287,8 +287,8 @@ end
 function obj:focusEditor()
     if not self.captureView then return end
 
+    self.captureView:level(hs.drawing.windowLevels.normal)
     self.captureView:show()
-    self.captureView:bringToFront()
 
     local win = self.captureView:hswindow()
     if win then win:focus() end
