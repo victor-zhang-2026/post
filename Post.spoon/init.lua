@@ -2,7 +2,7 @@ local obj = {}
 obj.__index = obj
 
 obj.name = "Post"
-obj.version = "1.0.1"
+obj.version = "1.1.0"
 obj.author = "Victor Zhang × Hammerspoon"
 obj.license = "MIT"
 
@@ -241,6 +241,53 @@ function updateDirtyState() {
 }
 
 textarea.addEventListener("input", updateDirtyState);
+
+// Use WebKit's text-editing command so these edits also support native undo.
+function replaceText(start, end, text) {
+    textarea.setSelectionRange(start, end);
+    document.execCommand("insertText", false, text);
+    updateDirtyState();
+}
+
+textarea.addEventListener("keydown", function(e) {
+    if (e.isComposing || e.keyCode === 229 || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key !== "Tab" && (e.key !== "Enter" || e.shiftKey)) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const value = textarea.value;
+    const lineStart = start === 0 ? 0 : value.lastIndexOf("\n", start - 1) + 1;
+    const newline = value.indexOf("\n", start);
+    const lineEnd = newline < 0 ? value.length : newline;
+    const line = value.slice(lineStart, lineEnd);
+
+    if (e.key === "Tab") {
+        e.preventDefault();
+        const indent = e.shiftKey ? (line.match(/^(?:\t| {1,4})/) || [""])[0] : "";
+        if (e.shiftKey && !indent) return;
+        const inserted = e.shiftKey ? "" : "    ";
+        replaceText(lineStart, lineStart + indent.length, inserted);
+        const offset = inserted.length - indent.length;
+        textarea.setSelectionRange(
+            Math.max(lineStart, start + offset),
+            Math.max(lineStart, end + offset)
+        );
+        return;
+    }
+
+    // Leave selections and edits inside the list marker to normal text entry.
+    if (start !== end) return;
+    const marker = line.match(/^([ \t]*)([-*])(?:[ \t]+|$)(?:\[([ xX])\](?:[ \t]+|$))?/);
+    if (!marker || start < lineStart + marker[0].length) return;
+
+    e.preventDefault();
+    if (!line.slice(marker[0].length).trim()) {
+        replaceText(lineStart, lineEnd, "");
+    } else {
+        const next = marker[1] + marker[2] + (marker[3] === undefined ? " " : " [ ] ");
+        replaceText(start, end, "\n" + next);
+    }
+});
 
 window.markSaved = function() {
     lastSavedValue = textarea.value;
